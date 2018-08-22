@@ -12,9 +12,9 @@ For Chatbot to be able to get its data from the game, you must add a few things 
 
 1. Quit the game if it is running.
 2. [Download the latest version of `ddraw.dll` (A.K.A. PluginLoader).](https://github.com/c0dycode/BorderlandsPluginLoader/releases)
-3. Locate your game's `Win32` folder within your game's `Binaries` folder. ![Win32 folder](https://i.imgur.com/t6OI06l.png)
+3. Locate the `Win32` folder within your game's `Binaries` folder. ![Win32 folder](https://i.imgur.com/t6OI06l.png)
 
-4. Copy `ddraw.dll` to the game's `Binaries\Win32` folder. ![ddrawl.dll](https://i.imgur.com/FHfiSqg.png)
+4. Copy `ddraw.dll` to the `Win32` folder. ![ddrawl.dll](https://i.imgur.com/FHfiSqg.png)
 
 5. In the `Win32` folder, create a folder called `Plugins`. ![Plugins folder](https://i.imgur.com/CDdoKDs.png)
 
@@ -38,6 +38,6 @@ For Chatbot to be able to get its data from the game, you must add a few things 
 
 7. In Streamlabs Chatbot's Scripts window, click the circular Reload Scripts icon, and "Borderlands" should appear in the list.
 
-8. Click the checkbox next to Borderlands to enable it ![Borderlands Script](https://i.imgur.com/gOWvMli.png)
+8. Click the checkbox next to Borderlands to enable it. ![Borderlands Script](https://i.imgur.com/gOWvMli.png)
 
 You are now ready to run the !build and !level commands!
