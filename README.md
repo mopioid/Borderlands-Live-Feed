@@ -3,6 +3,8 @@ A Streamlabs Chatbot Script for providing live BL2 &amp; TPS data in response to
 
 ![Command output examples](https://i.imgur.com/sVpDAik.png)
 
+This is made possible thanks to [c0dycode's CommandInjector](https://github.com/c0dycode/BL-CommandInjector), via the [BLIO set of methods](https://github.com/mopioid/BLIO).
+
 ## Installation
 
 ### Installing CommandInjector
