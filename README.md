@@ -28,9 +28,9 @@ For Chatbot to be able to get its data from the game, you must add a few things 
 
 1. [Download `BorderlandsChatbot.zip`.](https://github.com/mopioid/Borderlands-Chatbot/blob/master/BorderlandsChatbot.zip)
 2. Launch Streamlabs Chatbot if it is not already running.
-3. Navigate to the Scripts section in Streamlabs Chatbot's sidebar. If this is your first time using Streamlabs Chatbot scripts, it will walk you through how to prepare to use scripts, including installing Python. ![Scripts](https://i.imgur.com/be7rfSO.png)
+3. Navigate to the Scripts section in Streamlabs Chatbot's sidebar. If this is your first time using Streamlabs Chatbot scripts, it will walk you through how to prepare to use scripts. ![Chatbot Scripts](https://i.imgur.com/nEG3mk9.png)
 
-4. Right-click in the scripts window and select "Open Script Folder." ![Open Script Folder](https://i.imgur.com/h09j7jM.png)
+4. Right-click in the scripts window and select "Open Script Folder." ![Open Script Folder](https://i.imgur.com/otYQsbp.png)
 
 5. Open the `BorderlandsChatbot.zip` file to view its contents. ![BorderlandsChatbot.zip](https://i.imgur.com/9TW85Di.png)
 
@@ -38,6 +38,6 @@ For Chatbot to be able to get its data from the game, you must add a few things 
 
 7. In Streamlabs Chatbot's Scripts window, click the circular Reload Scripts icon, and "Borderlands" should appear in the list.
 
-8. Click the checkbox next to Borderlands to enable it. ![Borderlands Script](https://i.imgur.com/gOWvMli.png)
+8. Click the checkbox next to Borderlands to enable it. ![Borderlands Script](https://i.imgur.com/ySmxeza.png)
 
 You are now ready to run the !build and !level commands!
