@@ -8,7 +8,7 @@ ScriptName = "Borderlands Live Feed"
 Website = "https://github.com/mopioid/Borderlands-LiveFeed"
 Description = "Accesses character data in BL2 & TPS provided by Borderlands Live Feed."
 Creator = "mopioid"
-Version = "2.0"
+Version = "2.0.1"
 
 
 def Log(content):
@@ -30,7 +30,7 @@ Characters = {
 	"Gladiator":    "a Gladiator",
 	"Lawbringer":   "a Lawbringer",
 	"Baroness":     "a Baroness",
-	"Doppel":       "a Doppelganger"
+	"Doppel":       "a Doppelganger",
 }
 
 def GetName(output):
@@ -76,7 +76,7 @@ SkillURLs = {
 	"Gladiator":    "http://thepresequel.com/Athena/",
 	"Lawbringer":   "http://thepresequel.com/Nisha/",
 	"Baroness":     "http://thepresequel.com/Aurelia/",
-	"Doppel":       "http://thepresequel.com/Jack/"
+	"Doppel":       "http://thepresequel.com/Jack/",
 }
 
 def GetBuild(output):
@@ -199,22 +199,16 @@ Parameters = {
 	'gear': GetGear,
 }
 
+ParametersPattern = re.compile("\\$bl(%s)" % "|".join(Parameters.keys()), re.IGNORECASE)
+""" A compiled regular expression used to match any of our parameters in a string."""
+
+ParameterPatterns = { parameter: re.compile("\\$bl" + parameter, re.IGNORECASE) for parameter in Parameters.keys() }
+""" A dictionary of compiled regular expressions for each of our parameters. """
+
 OutputPath = os.path.expandvars("%APPDATA%\\BorderlandsLiveFeed\\Output.json")
 
 def Init():
-	parameters = list(Parameters.keys())
-
-	# Compile a regular expression we will use to determine whether any of our
-	# parameters exist in a string.
-	global ParametersPattern
-	ParametersPattern = re.compile("\\$bl(" + "|".join(parameters) + ")", re.IGNORECASE)
-
-	# Create a dictionary of compiled regular expressions for each of our
-	# parameters, each one keyed by the parameter itself.
-	global ParameterPatterns
-	ParameterPatterns = {}
-	for parameter in parameters:
-		ParameterPatterns[parameter] = re.compile("\\$bl" + parameter, re.IGNORECASE)
+	pass
 
 def Parse(string, user, target, message):
 	# Attempt to find one of our parameters in the string.
@@ -239,7 +233,7 @@ def Parse(string, user, target, message):
 	return parameterPattern.sub(result, string)
 
 
-with codecs.open(OutputPath, encoding='utf-8-sig', mode='r') as outputFile:
-	output = json.load(outputFile, encoding='utf-8-sig')
-for parameter in Parameters:
-	Log(parameter + ": " + Parameters[parameter](output))
+# with codecs.open(OutputPath, encoding='utf-8-sig', mode='r') as outputFile:
+# 	output = json.load(outputFile, encoding='utf-8-sig')
+# for parameter in Parameters:
+# 	Log(parameter + ": " + Parameters[parameter](output))

@@ -31,14 +31,45 @@ def _FormatSkills(skills):
 
 	return result
 
-def _FormatInventoryName(prefixPart, suffixPart):
-	if prefixPart is None or prefixPart.PartName is None:
-		return suffixPart.PartName
+
+def _FormatInventoryName(prefixPart, suffixPart, definitionData = None):
+	prefix = prefixPart.PartName if (
+		prefixPart is not None and prefixPart.PartName is not None and prefixPart.PartName != ""
+		) else None
+
+	suffix = suffixPart.PartName if (
+		suffixPart is not None and suffixPart.PartName is not None and suffixPart.PartName != ""
+		) else None
+
+	if suffix is not None:
+		return f"{prefix} {suffix}" if prefix is not None else suffix
+	elif prefix is not None:
+		return prefix
+	elif definitionData is not None:
+		return definitionData.ItemDefinition.ItemName
+	return None
+
+_ItemClassOutputs = {
+	"ShieldDefinition": 'shield',
+	"WillowShield": 'shield',
+	"GrenadeModDefinition": 'grenade',
+	"WillowGrenadeMod": 'grenade',
+	"ClassModDefinition": 'classMod',
+	"CrossDLCClassModDefinition": 'classMod',
+	"WillowClassMod": 'classMod',
+	"ArtifactDefinition": 'relic',
+	"WillowArtifact": 'relic',
+}
+
+def _FinishSaveGameLoad(caller: UObject, function: UFunction, params: FStruct):
+	saveGame = None
+
+	if params is None:
+		saveGame = caller.LastLoadedSaveGame
 	else:
-		return prefixPart.PartName + " " + suffixPart.PartName
+		caller.FinishSaveGameLoad(params.SaveGame, params.LoadResult, params.bUpdatePRI, params.bLoadedNewSaveGame, params.bLoadPlayer, params.bShouldRefreshStandIn, params.LoadPlayerBehavior)
+		saveGame = params.SaveGame
 
-
-def _NotifySaveGameLoadedDelegates(caller: UObject, function: UFunction, params: FStruct):
 	global Output
 	Output = {
 		'name': None,
@@ -60,28 +91,22 @@ def _NotifySaveGameLoadedDelegates(caller: UObject, function: UFunction, params:
 	}
 
 	standIn = caller.GetPrimaryPlayerStandIn()
-	saveGame = standIn.SaveGame
-	if saveGame is None:
-		_SaveOutput()
-		return True
+	if standIn is not None:
+		headCustomization = standIn.GetDesiredCustomizationOfType(_HeadClass)
+		if headCustomization is not None:
+			Output['head'] = headCustomization.CustomizationName
+
+		skinCustomization = standIn.GetDesiredCustomizationOfType(_SkinClass)
+		if skinCustomization is not None:
+			Output['skin'] = skinCustomization.CustomizationName
 
 	Output['name'] = saveGame.UIPreferences.CharacterName
 	Output['class'] = saveGame.PlayerClassDefinition.CharacterNameId.CharacterClassId.ClassName
-
-	headCustomization = standIn.GetDesiredCustomizationOfType(_HeadClass)
-	if headCustomization is not None:
-		Output['head'] = headCustomization.CustomizationName
-
-	skinCustomization = standIn.GetDesiredCustomizationOfType(_SkinClass)
-	if skinCustomization is not None:
-		Output['skin'] = skinCustomization.CustomizationName
-
 	Output['level'] = saveGame.ExpLevel
 	Output['OPLevel'] = saveGame.NumOverpowerLevelsUnlocked
 	Output['playthrough'] = saveGame.PlaythroughsCompleted
 	Output['currentPlaythrough'] = saveGame.LastPlaythroughNumber
-	if saveGame.NumOverpowerLevelsUnlocked is not None:
-		Output['currentOPLevel'] = saveGame.LastOverpowerChoice
+	Output['currentOPLevel'] = saveGame.LastOverpowerChoice
 
 	teleporter = saveGame.LastVisitedTeleporter
 	if teleporter is None:
@@ -97,26 +122,23 @@ def _NotifySaveGameLoadedDelegates(caller: UObject, function: UFunction, params:
 			Output['weapons'][weaponIndex] = _FormatInventoryName(prefixPart, suffixPart)
 
 	for item in saveGame.ItemData:
-		if item.bEquipped:
-			prefixPart = item.DefinitionData.PrefixItemNamePartDefinition
-			suffixPart = item.DefinitionData.TitleItemNamePartDefinition
-			className = item.DefinitionData.ItemDefinition.Class.Name
-			if className == "ShieldDefinition":
-				Output['shield'] = _FormatInventoryName(prefixPart, suffixPart)
-			elif className == "GrenadeModDefinition":
-				Output['grenade'] = _FormatInventoryName(prefixPart, suffixPart)
-			elif className == "ClassModDefinition" or className == "CrossDLCClassModDefinition":
-				Output['classMod'] = _FormatInventoryName(prefixPart, suffixPart)
-			elif className == "ArtifactDefinition":
-				if suffixPart is None:
-					Output['relic'] = item.DefinitionData.ItemDefinition.ItemName
-				else:
-					Output['relic'] = _FormatInventoryName(prefixPart, suffixPart)
+		if not item.bEquipped:
+			continue
+
+		definitionData = item.DefinitionData
+		className = definitionData.ItemDefinition.Class.Name
+		nameOutput = _ItemClassOutputs.get(definitionData.ItemDefinition.Class.Name)
+		if nameOutput is None:
+			continue
+
+		prefixPart = definitionData.PrefixItemNamePartDefinition
+		suffixPart = definitionData.TitleItemNamePartDefinition
+		Output[nameOutput] = _FormatInventoryName(prefixPart, suffixPart, definitionData)
 
 	Output['skills'] = _FormatSkills(saveGame.SkillData)
 
 	_SaveOutput()
-	return True
+	return False
 
 def _ClientSetSkillGrade(caller: UObject, function: UFunction, params: FStruct):
 	Output['skills'] = _FormatSkills(caller.PlayerSkillTree.Skills)
@@ -155,12 +177,6 @@ def _OnClose(caller: UObject, function: UFunction, params: FStruct):
 	_SaveOutput()
 	return True
 
-_ItemOutputs = {
-	"WillowShield": 'shield',
-	"WillowGrenadeMod": 'grenade',
-	"WillowClassMod": 'classMod',
-	"WillowArtifact": 'relic'
-}
 
 _ReadyPrecededUnready = False
 
@@ -181,7 +197,7 @@ def _InventoryReadied(caller: UObject, function: UFunction, params: FStruct):
 		weaponIndex = item.QuickSelectSlot - 1
 		Output['weapons'][weaponIndex] = item.GetShortHumanReadableName()
 	else:
-		itemOutput = _ItemOutputs.get(itemClass)
+		itemOutput = _ItemClassOutputs.get(itemClass)
 		if itemOutput is not None:
 			Output[itemOutput] = item.GetShortHumanReadableName()
 
@@ -206,7 +222,7 @@ def _RemoveFromInventory(caller: UObject, function: UFunction, params: FStruct):
 			weaponIndex = item.QuickSelectSlot - 1
 			Output['weapons'][weaponIndex] = None
 	else:
-		itemOutput = _ItemOutputs.get(itemClass)
+		itemOutput = _ItemClassOutputs.get(itemClass)
 		if itemOutput is not None:
 			Output[itemOutput] = None
 
@@ -252,8 +268,7 @@ def _NotifyTeleported(caller: UObject, function: UFunction, params: FStruct):
 
 	gameReplicationInfo = GetEngine().GetCurrentWorldInfo().GRI
 	Output['currentPlaythrough'] = gameReplicationInfo.CurrentPlaythrough
-	if playerReplicationInfo.NumOverpowerLevelsUnlocked is not None:
-		Output['currentOPLevel'] = gameReplicationInfo.OverpowerLevelModifier
+	Output['currentOPLevel'] = gameReplicationInfo.OverpowerLevelModifier
 
 	Output['map'] = GetEngine().GetCurrentWorldInfo().GetMapName(True)
 
@@ -274,7 +289,7 @@ def _RemoveHook(hook, prefix="WillowGame.WillowPlayerController"):
 
 class LiveFeed(ModMenu.SDKMod):
 	Name: str = "Live Feed"
-	Version: str = 2.0
+	Version: str = "2.0.1"
 	Description: str = f"Live updates character information to &lt;{OutputPath}&gt;."
 	Author: str = "mopioid"
 	Types: ModTypes = ModTypes.Utility
@@ -285,9 +300,9 @@ class LiveFeed(ModMenu.SDKMod):
 		ModMenu.LoadModSettings(self)
 
 	def Enable(self):
-		_NotifySaveGameLoadedDelegates(GetEngine().GamePlayers[0].Actor, None, None)
+		_FinishSaveGameLoad(GetEngine().GamePlayers[0].Actor, None, None)
 
-		_RegisterHook(_NotifySaveGameLoadedDelegates)
+		_RegisterHook(_FinishSaveGameLoad)
 		_RegisterHook(_ClientSetSkillGrade)
 		_RegisterHook(_ClientIncrementOverpowerLevel)
 		_RegisterHook(_ClientOnExpLevelChange)
@@ -300,7 +315,7 @@ class LiveFeed(ModMenu.SDKMod):
 		_RegisterHook(_SwitchQuickSlot, "WillowGame.WillowInventoryManager")
 
 	def Disable(self):
-		_RemoveHook(_NotifySaveGameLoadedDelegates)
+		_RemoveHook(_FinishSaveGameLoad)
 		_RemoveHook(_ClientSetSkillGrade)
 		_RemoveHook(_ClientIncrementOverpowerLevel)
 		_RemoveHook(_ClientOnExpLevelChange)
@@ -312,4 +327,4 @@ class LiveFeed(ModMenu.SDKMod):
 		_RemoveHook(_RemoveFromInventory, "WillowGame.WillowInventoryManager")
 		_RemoveHook(_SwitchQuickSlot, "WillowGame.WillowInventoryManager")
 
-Mods.append(LiveFeed())
+ModMenu.RegisterMod(LiveFeed())

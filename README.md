@@ -9,7 +9,7 @@ Included with Borderlands Live Feed is a script for Streamlabs Chatbot, which al
 
 ## Installation
 
-Begin by [downloading the latest version of Borderlands Live Feed.](https://github.com/mopioid/Borderlands-Live-Feed/releases)
+Begin by [downloading the latest version of Borderlands Live Feed.](https://github.com/mopioid/Borderlands-Live-Feed/archive/master.zip)
 
 ### Mod Installation (Required)
 
@@ -24,17 +24,18 @@ Begin by [downloading the latest version of Borderlands Live Feed.](https://gith
 ### Streamlabs Chatbot Installation (Optional)
 
 1. Launch Streamlabs Chatbot if it is not already running.
-2. Navigate to the Scripts section in Streamlabs Chatbot's sidebar. If this is your first time using Streamlabs Chatbot scripts, it will walk you through how to prepare to use scripts. ![Chatbot Scripts](https://i.imgur.com/nEG3mk9.png)
 
-4. Right-click in the scripts window and select "Open Script Folder." ![Open Script Folder](https://i.imgur.com/otYQsbp.png)
+2. Navigate to the Scripts section in Streamlabs Chatbot's sidebar. If you have not done so previously, you must [configure Streamlabs Chatbot to be able to use scripts].
 
-3. Copy the `BorderlandsLiveFeed` folder from the `Chatbot` folder in `BorderlandsLiveFeed.zip` to Streamlabs Chatbot's `Scripts` folder.
+3. Right-click in the scripts window and select "Open Script Folder." ![Open Script Folder](https://i.imgur.com/otYQsbp.png)
 
-7. In Streamlabs Chatbot's Scripts window, click the circular Reload Scripts icon, and "Borderlands" should appear in the list.
+4. Copy the `BorderlandsLiveFeed` folder from the `Chatbot` folder in `BorderlandsLiveFeed.zip` to Streamlabs Chatbot's `Scripts` folder.
 
-8. Click the checkbox next to Borderlands to enable it. ![Borderlands Script](https://i.imgur.com/ySmxeza.png)
+5. In Streamlabs Chatbot's Scripts window, click the circular Reload Scripts icon, and "Borderlands" should appear in the list.
 
-9. See [Streamlabs Chatbot Usage](https://github.com/mopioid/Borderlands-Live-Feed#streamlabs-chatbot-usage) for details on setting up commands.
+6. Click the checkbox next to Borderlands to enable it. ![Borderlands Script](https://i.imgur.com/ySmxeza.png)
+
+7. See [Streamlabs Chatbot Usage](https://github.com/mopioid/Borderlands-Live-Feed#streamlabs-chatbot-usage) for details on setting up commands.
 
 ## Usage
 
