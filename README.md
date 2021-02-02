@@ -17,7 +17,7 @@ Begin by [downloading the latest version of Borderlands Live Feed.](https://gith
 
 2. Locate the SDK's `Mods` folder (located in the `Win32` folder of the `Binaries` folder of your BL2/TPS installation).
 
-3. Copy the `LiveFeed` folder from the `Mods` folder in `BorderlandsLiveFeed.zip` to the SDK's `Mods` folder.
+3. Copy the `LiveFeed` folder from the `Mods` folder in `Borderlands-Live-Feed-master.zip` to the SDK's `Mods` folder.
 
 4. Launch the game, select "Mods" from the main menu, then select "Live Feed" to enable it.
 
@@ -29,7 +29,7 @@ Begin by [downloading the latest version of Borderlands Live Feed.](https://gith
 
 3. Right-click in the scripts window and select "Open Script Folder." ![Open Script Folder](https://i.imgur.com/otYQsbp.png)
 
-4. Copy the `BorderlandsLiveFeed` folder from the `Chatbot` folder in `BorderlandsLiveFeed.zip` to Streamlabs Chatbot's `Scripts` folder.
+4. Copy the `BorderlandsLiveFeed` folder from the `Chatbot` folder in `Borderlands-Live-Feed-master.zip` to Streamlabs Chatbot's `Scripts` folder.
 
 5. In Streamlabs Chatbot's Scripts window, click the circular Reload Scripts icon, and "Borderlands" should appear in the list.
 
