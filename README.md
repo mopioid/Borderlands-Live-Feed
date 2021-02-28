@@ -25,7 +25,7 @@ Begin by [downloading the latest version of Borderlands Live Feed.](https://gith
 
 1. Launch Streamlabs Chatbot if it is not already running.
 
-2. Navigate to the Scripts section in Streamlabs Chatbot's sidebar. If you have not done so previously, you must [configure Streamlabs Chatbot to be able to use scripts].
+2. Navigate to the Scripts section in Streamlabs Chatbot's sidebar. If you have not done so previously, you must [configure Streamlabs Chatbot to be able to use scripts](https://streamlabs.com/content-hub/post/chatbot-scripts-desktop).
 
 3. Right-click in the scripts window and select "Open Script Folder." ![Open Script Folder](https://i.imgur.com/otYQsbp.png)
 
