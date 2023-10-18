@@ -9,7 +9,7 @@ Included with Borderlands Live Feed is a script for Streamlabs Chatbot, which al
 
 ## Installation
 
-Begin by [downloading the latest version of Borderlands Live Feed.](https://github.com/mopioid/Borderlands-Live-Feed/archive/master.zip)
+Begin by [downloading the latest version of Borderlands Live Feed.](https://github.com/mopioid/Borderlands-Live-Feed/releases)
 
 ### Mod Installation (Required)
 
@@ -17,7 +17,7 @@ Begin by [downloading the latest version of Borderlands Live Feed.](https://gith
 
 2. Locate the SDK's `Mods` folder (located in the `Win32` folder of the `Binaries` folder of your BL2/TPS installation).
 
-3. Copy the `LiveFeed` folder from the `Mods` folder in `Borderlands-Live-Feed-master.zip` to the SDK's `Mods` folder.
+3. Copy the `LiveFeed` folder from the `Mods` folder in `BorderlandsLiveFeed.zip` to the SDK's `Mods` folder.
 
 4. Launch the game, select "Mods" from the main menu, then select "Live Feed" to enable it.
 
